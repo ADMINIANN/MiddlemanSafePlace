@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: MiddlemanSafePlace
+    env: docker
+    branch: main
+    dockerfilePath: Dockerfile
+    plan: free
+    autoDeploy: true
+    instanceCount: 1
+    instanceType: starter

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MiddlemanSafePlace.com</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header">
+      <div class="brand">
+        <div class="brand-logo" aria-hidden="true">MSP</div>
+        <h1>MiddlemanSafePlace.com</h1>
+        <p>Secure a trusted middleman for your transaction.</p>
+      </div>
+    </header>
+
+    <main class="content">
+      <section class="hero">
+        <h2>Request a middleman in minutes</h2>
+        <p>Sign up or log in first, then submit transaction details and chat with our team instantly.</p>
+      </section>
+
+      <section class="auth-card" id="auth-card">
+        <div class="auth-top">
+          <div>
+            <h3 id="auth-heading">Sign in to request a middleman</h3>
+          </div>
+          <div class="auth-toggle">
+            <button type="button" id="show-login-btn" class="toggle-button active">Login</button>
+            <button type="button" id="show-signup-btn" class="toggle-button">Sign up</button>
+          </div>
+        </div>
+
+        <form id="login-form">
+          <label>
+            Email address
+            <input type="email" name="email" required placeholder="jane@example.com" />
+          </label>
+
+          <label>
+            Password
+            <input type="password" name="password" required placeholder="••••••••" />
+          </label>
+
+          <button type="submit">Login</button>
+        </form>
+
+        <form id="signup-form" class="hidden">
+          <label>
+            Full name
+            <input type="text" name="name" required placeholder="Jane Doe" />
+          </label>
+
+          <label>
+            Email address
+            <input type="email" name="email" required placeholder="jane@example.com" />
+          </label>
+
+          <label>
+            Password
+            <input type="password" name="password" required placeholder="Create a password" />
+          </label>
+
+          <button type="submit">Create account</button>
+        </form>
+
+        <div id="auth-message" class="message"></div>
+      </section>
+
+      <section class="user-card hidden" id="user-card">
+        <div class="user-card-top">
+          <div>
+            <h3>Welcome, <span id="user-name"></span></h3>
+            <p>You are logged in. You can now request a middleman and chat with our support team.</p>
+          </div>
+          <button id="logout-button" class="logout-button">Log out</button>
+        </div>
+      </section>
+
+      <section class="form-card hidden" id="request-card">
+        <form id="middleman-request-form">
+          <h3>Transaction request</h3>
+
+          <label>
+            From (seller)
+            <input type="text" name="from" required placeholder="Seller name or company" />
+          </label>
+
+          <label>
+            To (buyer)
+            <input type="text" name="to" required placeholder="Buyer name or company" />
+          </label>
+
+          <label>
+            Amount
+            <input type="number" name="amount" required placeholder="1000" min="0" step="0.01" />
+          </label>
+
+          <label>
+            Currency
+            <select name="currency" required>
+              <option value="">Select currency</option>
+              <option value="USD">USD</option>
+              <option value="EUR">EUR</option>
+              <option value="GBP">GBP</option>
+              <option value="BTC">BTC</option>
+              <option value="ETH">ETH</option>
+            </select>
+          </label>
+
+          <label>
+            Additional details
+            <textarea name="details" rows="4" placeholder="Describe the transaction and any special requirements."></textarea>
+          </label>
+
+          <button type="submit">Request middleman</button>
+          <div id="form-message" class="message"></div>
+        </form>
+      </section>
+
+      <section class="chat-card hidden" id="chat-card">
+        <h3>Live chat support</h3>
+        <div class="chat-window" id="chat-window" aria-live="polite"></div>
+
+        <form id="chat-form" class="chat-form">
+          <label class="chat-label">
+            Message
+            <textarea id="chat-message" placeholder="Ask about your transaction or middleman options" rows="2" required></textarea>
+          </label>
+
+          <button type="submit">Send message</button>
+        </form>
+        <div id="chat-status" class="message"></div>
+      </section>
+
+      <section class="info-panel">
+        <h3>Why use a middleman?</h3>
+        <ul>
+          <li>Neutral oversight for buyer and seller</li>
+          <li>Secure funds and asset transfer</li>
+          <li>Dispute mediation when needed</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>MiddlemanSafePlace.com — built to help customers submit transaction requests quickly.</p>
+    </footer>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
