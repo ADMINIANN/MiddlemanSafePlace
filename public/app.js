@@ -16,7 +16,7 @@ const chatForm = document.getElementById('chat-form');
 const chatStatus = document.getElementById('chat-status');
 const chatMessage = document.getElementById('chat-message');
 
-const socket = io();
+const socket = io({ withCredentials: true });
 
 function showElement(element) {
   element.classList.remove('hidden');
@@ -89,7 +89,7 @@ function updateUI(user) {
 
 async function fetchCurrentUser() {
   try {
-    const response = await fetch('/api/current-user');
+    const response = await fetch('/api/current-user', { credentials: 'same-origin' });
     const result = await response.json();
     updateUI(result.user || null);
   } catch (error) {
@@ -115,6 +115,7 @@ loginForm.addEventListener('submit', async (event) => {
   try {
     const response = await fetch('/api/login', {
       method: 'POST',
+      credentials: 'same-origin',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     });
@@ -145,6 +146,7 @@ signupForm.addEventListener('submit', async (event) => {
   try {
     const response = await fetch('/api/signup', {
       method: 'POST',
+      credentials: 'same-origin',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     });
@@ -162,7 +164,7 @@ signupForm.addEventListener('submit', async (event) => {
 
 logoutButton.addEventListener('click', async () => {
   try {
-    await fetch('/api/logout', { method: 'POST' });
+    await fetch('/api/logout', { method: 'POST', credentials: 'same-origin' });
   } catch (error) {
     console.error('Logout failed', error);
   }
@@ -186,6 +188,7 @@ requestForm.addEventListener('submit', async (event) => {
   try {
     const response = await fetch('/api/request-middleman', {
       method: 'POST',
+      credentials: 'same-origin',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     });

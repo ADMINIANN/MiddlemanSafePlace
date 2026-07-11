@@ -8,9 +8,17 @@ const { Server } = require('socket.io');
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
-const PORT = process.env.PORT || 3000;
+const io = new Server(server, {
+  cors: {
+    origin: true,
+    methods: ['GET', 'POST'],
+    credentials: true,
+  },
+  path: '/socket.io',
+});
+const PORT = parseInt(process.env.PORT, 10) || 3000;
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@example.com';
+const isProduction = process.env.NODE_ENV === 'production';
 
 const users = [];
 const requests = [];
@@ -29,13 +37,19 @@ const transporter = smtpConfigured
     })
   : null;
 
+app.set('trust proxy', 1);
 app.use(express.json());
 app.use(
   session({
     secret: process.env.SESSION_SECRET || 'change_this_secret',
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 24 * 60 * 60 * 1000 },
+    proxy: true,
+    cookie: {
+      secure: isProduction,
+      sameSite: 'lax',
+      maxAge: 24 * 60 * 60 * 1000,
+    },
   })
 );
 app.use(express.static(path.join(__dirname, 'public')));
@@ -193,6 +207,6 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(PORT, () => {
-  console.log(`MiddlemanSafePlace.com running at http://localhost:${PORT}`);
+server.listen(PORT, '0.0.0.0', () => {
+  console.log(`MiddlemanSafePlace.com running on port ${PORT}`);
 });
